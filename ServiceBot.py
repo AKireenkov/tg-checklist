@@ -35,8 +35,12 @@ class ServiceBot(BaseBot):
         ]
         return InlineKeyboardMarkup(keyboard)
 
-    async def start(self, update: Update, context: CallbackContext):
-        commands = "Доступные команды:\n/check - Запросить чек-лист\n/restart - Сбросить состояние чек-листа"
+    async def help(self, update: Update, context: CallbackContext):
+        commands = ("Доступные команды:\n"
+                    "/help - Список доступных команд\n"
+                    "/check - Запросить чек-лист\n"
+                    "/restart - Сбросить состояние чек-листа\n"
+                    "/FAQ - Возможные состояния чек-листа\n")
         await self.send_message(update, f"👋 Привет! Начинаем процесс релиза.\n\n{commands}")
 
     async def deploy(self, update: Update, context: CallbackContext):
@@ -48,6 +52,12 @@ class ServiceBot(BaseBot):
             "main_checklist": [None] * len(self.MAIN_CHECKLIST),
         }
         await self.send_message(update, "🔄 Чек-лист сброшен. Используйте /check для повторного запроса.")
+
+    async def FAQ(self, update: Update, context: CallbackContext):
+        message = ("1. ⚙️ - in progress (в работе)"
+                   "\n2. ✅ - passed (пройден успешно)"
+                   "\n3. ❌ -  failed (пройден с ошибками)")
+        await self.send_message(update, f"ℹ️ Состояния отмеченных пунктов в соответствии с количеством нажатий на них: \n\n{message}")
 
     async def handle_button_click(self, update: Update, context: CallbackContext):
         query = update.callback_query

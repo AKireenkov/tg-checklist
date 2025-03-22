@@ -8,9 +8,10 @@ def main():
     app = ApplicationBuilder().token(TOKEN).build()
     bot = ServiceBot(app)
 
-    app.add_handler(CommandHandler("start", partial(bot.start)))
+    app.add_handler(CommandHandler("help", partial(bot.help)))
     app.add_handler(CommandHandler("check", partial(bot.deploy)))
     app.add_handler(CommandHandler("restart", partial(bot.restart)))
+    app.add_handler(CommandHandler("FAQ", partial(bot.FAQ)))
     app.add_handler(CallbackQueryHandler(bot.handle_button_click))
 
     print("Бот запущен...")
